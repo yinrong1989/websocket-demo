@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script typet="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+<input type="text" id="text">
+<button onclick="send()">Send</button>
+<button onclick="closeWebSocket()">Close</button>
+<div id="message"></div>
+
+</body>
+<script>
+
+
+    var userId = '8888';
+
+    var webSocket = null;
+    $(function () {
+        connectWebSocket()
+
+
+    });
+
+    function connectWebSocket() {
+
+        console.info("开始....");
+        webSocket = new WebSocket("ws://127.0.0.1:8080/myHandler/ID=" + userId);
+        webSocket.onopen = function () {
+            console.info("open")
+        }
+        webSocket.onclose = function () {
+            console.info("onclose");
+        }
+        webSocket.onmessage = function (msg) {
+            console.info(msg.data);
+            $("#message").html(msg.data);
+        }
+    }
+
+    //发送消息
+    function send() {
+        var postValue = {};
+        postValue.id = userId;
+        postValue.message = $("#text").val();
+        webSocket.send(JSON.stringify(postValue))
+    }
+
+    function closeWebSocket() {
+        if (webSocket != nul) {
+            webSocket.close();
+        }
+    }
+
+
+</script>
+</html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript"src="//cdn.jsdelivr.net/sockjs/1.0.0/sockjs.min.js"></script>
 </head>
 <body>
 text:<input type="text" id="text">
@@ -29,7 +30,8 @@ useId:<input type="text" id="userId">
     function connectWebSocket() {
         var userId = $("#userId").val();
         console.info("开始....");
-        webSocket = new WebSocket("ws://127.0.0.1:8080/websocket/" + userId);
+        //webSocket = new WebSocket("ws://127.0.0.1:8080/websocket/" + userId);
+        webSocket =new SockJS('/myHandler/'+ userId);
         webSocket.onopen = function () {
             console.info("open")
         }
